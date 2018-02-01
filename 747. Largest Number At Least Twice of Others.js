@@ -17,11 +17,9 @@ var dominantIndex = function(nums) {
     let original = Object.assign([], nums);
     let largest = Math.max(...nums);
     let index, flag = false;
-    nums = nums.filter(item => {
-        return item !== largest;
-    });
+   
     nums.forEach((item) => {
-        if(largest < item * 2) {
+        if(largest < item * 2 && largest !== item) {
             flag = true;
             return;
         }
