@@ -15,41 +15,19 @@ return -1.
  * @param {number[]} coins
  * @param {number} amount
  * @return {number}
- * 
- * s[1] = 1
- * s[2] = 1
- * s[5] = 1
- * s[n] = min(s[n-coins[0]]+1, s[n-coins[1]]+1,... s[n-coins[n-1]]+1)
+ DP: f(x) = min(f(x-coin[0])+1, f(x-coin[1])+1, ...f(x-coin[n])+1);
+ f(0) = 0;
  */
 var coinChange = function(coins, amount) {
-    var arr, i, minVal;
-    var remain;
-    if(amount === 0) return 0;
-    const minimum = Math.min(...coins);
-    if(amount < minimum) {
-        return -1;
-    }
-   
-    arr = new Array(amount+1).fill(-1);
-    for(remain=1;remain <=amount; remain++) {
-        if(coins.indexOf(remain) >= 0) {
-            arr[remain] = 1;
-        }
-        else {
-            minVal = Number.MAX_SAFE_INTEGER;
-            for(i=0; i<coins.length; i++) {
-                if(remain >= coins[i]) {
-                    var tmp = arr[remain - coins[i]];
-                    if(tmp>0) {
-                        minVal = Math.min(tmp +1, minVal);
-                    }
-                }
-            }
-            if(minVal !== Number.MAX_SAFE_INTEGER) {
-                arr[remain] = minVal;  
-            }
+    var f = [];
+    f[0] = 0;
+    for(var i=1; i<= amount; i++) {
+        f[i] = Number.MAX_SAFE_INTEGER;
+        for(j=0; j<coins.length; j++) {
+            if(i >= coins[j]) {
+                f[i] = Math.min(f[i], f[i-coins[j]] +1);
+            } 
         }
     }
-    return arr[amount];
-    
+    return f[amount] !== Number.MAX_SAFE_INTEGER ? f[amount] : -1;
 };
