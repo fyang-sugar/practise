@@ -47,3 +47,28 @@ var isAnagram = function(delta) {
     }
     return sum === 0;
 };
+
+
+more simpler version in O(n):
+var findAnagrams = function(s, p) {
+    var delta = {}, res = [], i, sum=0;
+    for( i=0; i<p.length; i++) {
+        delta[p[i]] = delta[p[i]] ? delta[p[i]]-1 : -1;
+        delta[s[i]] = delta[s[i]] ? delta[s[i]]+1 : 1;
+    }
+    for(var key in delta) {
+        sum += Math.abs(delta[key]);
+    }
+    if(sum === 0) res.push(0);
+    for(i=p.length; i<s.length; i++) {
+        sum = sum - (Math.abs(delta[s[i]]) || 0) - Math.abs(delta[s[i-p.length]]);
+        delta[s[i]] = delta[s[i]] ? delta[s[i]]+1 : 1;
+        delta[s[i-p.length]] =  delta[s[i-p.length]]-1;
+        sum = sum + Math.abs(delta[s[i]]) + Math.abs(delta[s[i-p.length]]);
+        if(sum === 0) {
+            res.push(i- p.length +1); 
+        }
+    }
+    return res;
+};
+
