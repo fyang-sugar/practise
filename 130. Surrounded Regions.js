@@ -12,7 +12,57 @@ X X X X
 X X X X
 X O X X
 */
+// BFS
+var solve = function(board) {
+    if(board.length === 0)  return;
+    var col = board[0].length;
+    var row = board.length;
+    for(i=0; i<board.length; i++) {
+        BFS(board, i, 0, row, col);
+        BFS(board, i, col-1, row, col);
+    }
+    for(j=0; j<board[0].length; j++) {
+        BFS(board, 0, j, row, col);
+        BFS(board, row-1, j, row, col);
+    }
+    
+    for(i=0; i<board.length; i++) {
+        for(j=0; j<board[0].length; j++) {
+           if(board[i][j] === 'O') board[i][j] = 'X';
+           if(board[i][j] === 'W') board[i][j] = 'O';
+        }
+    }
+   return;
+};
 
+var BFS = function(board, i, j, row, col) {
+    if(board[i][j] !== 'O')  return;
+    var st = [];
+    board[i][j] = 'W';
+    st.push({x: i, y: j});
+    while(st.length > 0) {
+        var obj = st.shift();
+        if(obj.x+1 < row && board[obj.x+1][obj.y] === 'O') {
+            board[obj.x+1][obj.y] = 'W';
+            st.push({x: obj.x+1, y: obj.y});
+        }
+        if(obj.x-1 >=0 && board[obj.x-1][obj.y] === 'O') {
+            board[obj.x-1][obj.y] = 'W';
+            st.push({x: obj.x-1, y: obj.y});
+        }
+        if(obj.y+1 < col && board[obj.x][obj.y+1] === 'O') {
+            board[obj.x][obj.y+1] = 'W';
+            st.push({x: obj.x, y: obj.y+1});
+        }
+        if(obj.y-1 >= 0 && board[obj.x][obj.y-1] === 'O') {
+            board[obj.x][obj.y-1] = 'W';
+            st.push({x: obj.x, y: obj.y-1});
+        }
+    }   
+}
+
+
+// DFS 
 /**
  * @param {character[][]} board
  * @return {void} Do not return anything, modify board in-place instead.
