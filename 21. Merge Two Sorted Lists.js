@@ -20,8 +20,7 @@ var mergeTwoLists = function(l1, l2) {
         if(p1.val < p2.val) {
             cur.next = p1;
             p1 = p1.next;
-        }
-        else {
+        } else {
             cur.next = p2;
             p2 = p2.next;
         }
