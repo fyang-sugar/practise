@@ -30,3 +30,20 @@ var rob = function(nums) {
     return dp[nums.length-1];
     
 };
+
+// updated
+var rob = function(nums) {
+    if(nums.length === 0) return 0;
+    if(nums.length === 1) return nums[0];
+    var i, third, temp;
+    var first = nums[0];
+    var second = Math.max(nums[1], nums[0]);
+    for(i=2; i<nums.length; i++) {
+        third = Math.max((first + nums[i]), second);
+        temp = second;
+        second = third;
+        first = temp;
+    }
+    return second;
+    
+};
