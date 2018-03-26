@@ -60,3 +60,18 @@ var change = function(amount, coins) {
     return dp[coins.length][amount];
 };
 
+
+// update
+var change = function(amount, coins) {
+    var dp = [1];
+    for(var i=1; i<=amount; i++) {
+        dp[i] = 0;
+    }
+  
+    for(var coin of coins) {
+        for(var i=coin; i<=amount; i++) {
+            dp[i] += dp[i - coin];
+        }
+    }
+    return dp[amount];
+};
