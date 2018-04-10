@@ -49,3 +49,47 @@ var dfs = function(s, wordDict, map) {
     map[s] = ans;
     return ans;
 };
+
+
+// Update
+/**
+ * @param {string} s
+ * @param {string[]} wordDict
+ * @return {string[]}
+ 
+ define an map to record string to it's combination, e,g: code - ["co de" , "code"]
+ every time we have an array to recording the split possiblities for the string s
+
+ */
+
+var wordBreak = function(s, wordDict) {
+    if(s.length ===0)  return [];
+    if(s.length === 1) {
+        return wordDict.includes(s) ? [s] : [];
+    }
+    var map = {};
+    map[''] = [''];
+    return dfs(s, wordDict, map);
+};
+
+var dfs = function(s, wordDict, map) {
+    if(map[s]) { // if the combination already recorded, no need to redo it again.
+        return map[s];
+    }
+    var ans = [];
+    for(var word of wordDict) {
+        if(s.startsWith(word)) {
+            var s2 = s.substring(word.length);
+            var s2_res = dfs(s2, wordDict, map);
+            for(var str of s2_res) {
+                if(str === '') {
+                    ans.push(word);
+                } else {
+                    ans.push(word +' ' + str);
+                }
+            }
+        }
+    }
+    map[s] = ans;
+    return ans;
+};
