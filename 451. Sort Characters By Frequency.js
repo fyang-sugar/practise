@@ -10,32 +10,28 @@ So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid ans
  * @return {string}
  */
 var frequencySort = function(s) {
-    let res=[], i, map= new Map(), count, tmp=[];
-    let arr = s.split("").sort();
-    // Use a map to record freq with char
-    for(i=0;i<arr.length;i++) {
-        if(!map.has(arr[i])) {
-            map.set(arr[i], 1);
-        }
-        else {
-            map.set(arr[i], map.get(arr[i])+1);
-        }
+    let str='', i, map= {}, count, tmp=[];
+    for(i=0;i<s.length;i++) {
+        map[s[i]] = map[s[i]]? map[s[i]]+1 : 1;
     }
     // Convert map into array and sort
-    map.forEach(function(key, val){
-         tmp.push([key, val]);
+    for(var key in map){
+         tmp.push([key, map[key]]);
+    }
+    
+    tmp.sort((a, b) => {
+        if(a[1] !== b[1]) return b[1] - a[1];
+        if(a[0]>b[0]) return 1;
+        if(a[0]<b[0]) return -1;
+        return 0;
+        
     });
-    tmp.sort(function(a, b){
-        return b[0]-a[0];
-    });
-  
-    tmp.forEach(function(pair){
-        count = pair[0];
-         while(count>0) {
+    for(var item of tmp) {
+        count = item[1];
+        while(count >0) {
+            str += item[0];
             count--;
-            res.push(pair[1]);
         }
-    });
-   
-    return res.join('');
+    }
+    return str;
 };
