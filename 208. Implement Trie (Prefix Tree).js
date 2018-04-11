@@ -1,7 +1,91 @@
 // Implement a trie with insert, search, and startsWith methods.
 // Note:
 // You may assume that all inputs are consist of lowercase letters a-z.
+// non -recursive version
 
+/**
+ * Initialize your data structure here.
+ */
+
+var TrieNode = function(data) {
+    this.isWord = false;
+    this.data = data;
+    this.children = {};
+};
+
+var Trie = function() {
+    this.root = new TrieNode('');
+};
+
+/**
+ * Inserts a word into the trie. 
+ * @param {string} word
+ * @return {void}
+ */
+Trie.prototype.insert = function(word) {
+    if(!this.root || word.length === 0)  return;
+    var cur = this.root;
+    for(var i=0; i<word.length; i++) {
+        var chr = word[i];
+        if(!cur.children[chr]) {
+            cur.children[chr] = new TrieNode(chr);
+        }
+        cur = cur.children[chr];
+        if(i=== word.length-1) {
+            cur.isWord = true;
+        }
+    }
+};
+
+/**
+ * Returns if the word is in the trie. 
+ * @param {string} word
+ * @return {boolean}
+ */
+Trie.prototype.search = function(word) {
+    if(!this.root || word.length === 0)  return;
+    var cur = this.root;
+    for(var i=0; i<word.length; i++) {
+        var chr = word[i];
+        if(!cur.children[chr]) {
+            return false;
+        }
+        cur = cur.children[chr];
+        if(i=== word.length-1 && !cur.isWord) {
+            return false;
+        }
+    }
+    return true;
+};
+
+/**
+ * Returns if there is any word in the trie that starts with the given prefix. 
+ * @param {string} prefix
+ * @return {boolean}
+ */
+Trie.prototype.startsWith = function(prefix) {
+    if(!this.root || prefix.length === 0)  return;
+    var cur = this.root;
+    for(var i=0; i<prefix.length; i++) {
+        var chr = prefix[i];
+        if(!cur.children[chr]) {
+            return false;
+        }
+        cur = cur.children[chr];
+    }
+    return true;
+};
+
+/** 
+ * Your Trie object will be instantiated and called as such:
+ * var obj = Object.create(Trie).createNew()
+ * obj.insert(word)
+ * var param_2 = obj.search(word)
+ * var param_3 = obj.startsWith(prefix)
+ */
+
+
+// recursive version
 /**
  * Initialize your data structure here.
  */
