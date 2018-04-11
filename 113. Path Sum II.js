@@ -26,25 +26,26 @@ return[ [5,4,11,2],[5,8,4,5]]
 var pathSum = function(root, sum) {
     if(!root) return [];
     var pathes =[], path = [];
-    _pathSum(root, sum, 0, pathes, path);
+    _pathSum(root, sum, root.val, pathes, [root.val]);
     return pathes;
 };
 
 var _pathSum = function(node, sum, curSum, pathes, path) {
-    path.push(node.val);
-    curSum += node.val;
     if(!node.left && !node.right) {
         if(curSum === sum) {
             pathes.push(path.slice());
         }
-        path.pop();
-        curSum =  curSum - node.val;
         return;
     }
     
-    if(node.left) _pathSum(node.left, sum, curSum, pathes, path);
-    if(node.right) _pathSum(node.right, sum, curSum, pathes, path);
-    path.pop();
-    curSum = curSum - node.val;
+    if(node.left) {
+        path.push(node.left.val);
+        _pathSum(node.left, sum, curSum + node.left.val, pathes, path);
+        path.pop();
+    }
+    if(node.right) {
+        path.push(node.right.val);
+        _pathSum(node.right, sum, curSum + node.right.val, pathes, path);
+        path.pop();
+    } 
 };
-
