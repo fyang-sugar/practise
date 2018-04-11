@@ -14,27 +14,17 @@ Explanation:'e' is the letter that was added.
  * use an array to store the char and occurances in t first, then go through s, decrease occurances till we found one char has one occurance left
  */
 var findTheDifference = function(s, t) {
-    let map = new Map(), res;
-    t.split("").forEach((c) =>{
-         if(!map.has(c)) {
-            map.set(c, 1);
-         }
-         else {
-            map.set(c, map.get(c)+1);
-         }
-    }); 
-
-     s.split("").forEach((c) => {
-        if(map.has(c)) {
-            map.set(c, map.get(c)-1);
-        }
-     }); 
-     
-     map.forEach((value, key)=>{
-         if(value >0) {
-             res= key;
-         }
-     });
-     return res;
+    var map = {};
+    var arrS = s.split('');
+    var arrT = t.split('');
+    for(var i=0; i<arrT.length; i++) {
+        map[arrS[i]] = map[arrS[i]] ? map[arrS[i]]+1 : 1;
+        map[arrT[i]] = map[arrT[i]] ? map[arrT[i]]-1 : -1;
+    }
     
+    for(var key in map) {
+        if(map[key] === -1) {
+            return key;
+        }
+    }
 };
