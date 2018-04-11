@@ -21,16 +21,20 @@ Return 6.
  */
  
 var maxPathSum = function(root) {
-    var max = [Number.NEGATIVE_INFINITY];
-    _maxPathSum(root, max);
-    return max[0];
+    var res = [Number.NEGATIVE_INFINITY];
+    _maxPathSum(root, res);
+    return res[0];
 };
 
-var _maxPathSum = function(node, max) {
+var _maxPathSum = function(node, res) {
     if(!node)  return 0;
-    var left = _maxPathSum(node.left, max);
-    var right = _maxPathSum(node.right, max);
+    var left = _maxPathSum(node.left, res);
+    var right = _maxPathSum(node.right, res);
+    
+    // for this node, max could be the left+node, or right+node, or node itself
+    var maxSingle =  Math.max(left+node.val, right+node.val, node.val);
+    
+    res[0] = Math.max(res[0], maxSingle, left+right+node.val);
    
-    max[0] = Math.max(max[0], left+node.val, right+node.val, node.val, left+node.val+right);
-    return Math.max(right+node.val, left+node.val, node.val);
+    return maxSingle;
 };
