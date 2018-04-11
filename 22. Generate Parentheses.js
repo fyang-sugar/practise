@@ -14,24 +14,25 @@ For example, given n = 3, a solution set is:
  * @param {number} n
  * @return {string[]}
  */
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
 var generateParenthesis = function(n) {
     var res = [];
-    var traverse = function(left, right, str) {
-        if(left < right) {
-            return;
-        }
-        if(left ===n && right === n) {
-            res.push(str);
-            return;
-        }
-        if(left > right && left === n) {
-            traverse(left, right+1, str+')');
-            return;
-        }
-        traverse(left+1, right, str+'(');
-        traverse(left, right+1, str+')');
-    };
-    traverse(0, 0, '');
+    dfs(0, 0, '', res, n);
     return res;
-    
+};
+
+var dfs = function(left, right, str, res, n) {
+    if(left === n && right === n) {
+        res.push(str.slice(0));
+        return;
+    }
+    if(left < n) {
+        dfs(left+1, right, str + '(', res, n);
+    }
+    if(right < left) {
+        dfs(left, right+1, str + ')', res, n);
+    }
 };
