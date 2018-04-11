@@ -29,15 +29,10 @@ var hasPathSum = function(root, sum) {
 };
 
 var _hasPathSum = function(node, sum, curSum) {
-    if(!node) {
-        return false;
+    if(!node) return false;
+    curSum += node.val;
+    if(!node.left && !node.right) {
+        return curSum === sum;
     }
-    else {
-        curSum += node.val;
-        if(!node.left && !node.right) {  // Reach to a leaf
-            return curSum === sum ? true : false;
-        }
-        return _hasPathSum(node.left, sum, curSum) || _hasPathSum(node.right, sum, curSum); 
-    }
-    
+    return  _hasPathSum(node.left, sum, curSum) || _hasPathSum(node.right, sum, curSum);
 };
