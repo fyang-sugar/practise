@@ -22,17 +22,16 @@ There are two left leaves in the binary tree, with values 9 and 15 respectively.
  * @return {number}
  */
 var sumOfLeftLeaves = function(root) {
-    if(!root) return 0;
-    var sum =0;
-    helper(root, false);
-    return sum;
-     
-    function helper(node, isleft) {
-        if(!node) return;
-        helper(node.left, true);
-        if(node && !node.left && !node.right) {
-            sum += isleft ? node.val : 0;
-        }
-        helper(node.right, false);
+    var sum = [0];
+    inorder(root, sum, false);
+    return sum[0];
+};
+
+var inorder = function(root, sum, isLeft) {
+    if(!root)  return;
+    inorder(root.left, sum, true);
+    if(isLeft && !root.left && !root.right) {
+        sum[0] += root.val;
     }
+    inorder(root.right, sum, false);
 };
