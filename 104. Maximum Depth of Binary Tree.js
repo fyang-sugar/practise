@@ -16,10 +16,13 @@ var maxDepth = function(root) {
 };
 
 var Depth = function(node, count) {
+    if(node === null) {
+       return count;
+    }
     if(node !== null && node.left === null && node.right === null ) {
         return count+1;
     }
-    var left = (node.left !== null) ? Depth(node.left, count) : count;
-    var right =(node.right !== null) ? Depth(node.right, count) : count;
+    var left = Depth(node.left, count);
+    var right =Depth(node.right, count);
     return Math.max(left, right) +1; 
 };
