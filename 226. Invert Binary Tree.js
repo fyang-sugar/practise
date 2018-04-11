@@ -27,17 +27,10 @@ to
  */
 var invertTree = function(root) {
     if(!root)  return root;
-    let tmp;
-    invert(root);
+    root.left = invertTree(root.left);
+    root.right = invertTree(root.right);
+    var temp = root.left;
+    root.left = root.right;
+    root.right = temp;
     return root;
-    
-    function invert(node) {
-       // get the left and right from bottom first
-        node.left = invertTree(node.left);
-        node.right = invertTree(node.right);
-        // swap left with right
-        tmp = node.left;
-        node.left = node.right;
-        node.right = tmp;
-    }
 };
