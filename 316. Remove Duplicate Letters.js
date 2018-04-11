@@ -1,5 +1,6 @@
 /*
-Given a string which contains only lowercase letters, remove duplicate letters so that every letter appear once and only once. You must make sure your result is the smallest in lexicographical order among all possible results.
+Given a string which contains only lowercase letters, remove duplicate letters so that every letter appear once and only once. 
+You must make sure your result is the smallest in lexicographical order among all possible results.
 Example:
 Given "bcabc"
 Return "abc"
@@ -23,7 +24,7 @@ Return "acdb"
  
  so when !visited[newElement]
   if newElement > st.peek()  -  st.push(newElement)  visited[newElement] = 1, map[newElement] --
-  if newElement < st.peek() && map[st.peek()] > 1  val = st.pop(), map[val] --, visited[val] = 0, visited[newElement] = 1, map[newElement] -- st.push(newElement)
+  while newElement < st.peek() && map[st.peek()] > 1  val = st.pop(), visited[val] = 0, visited[newElement] = 1, map[newElement] -- st.push(newElement)
  */
 var removeDuplicateLetters = function(s) {
     var st = [], visited= [], map = {}, i=0, newStr = '';
@@ -38,27 +39,20 @@ var removeDuplicateLetters = function(s) {
         visited[newStr[i]] = 0;
     }
     
+     st.push(newStr[0]);
+     visited[newStr[0]] = 1;
+    
     for(i=0; i<newStr.length; i++) {
         map[newStr[i]] --;
-        
-        if(st.length === 0) {
-            st.push(newStr[i]);
-            visited[newStr[i]] = 1;
-        }else {
-            if(!visited[newStr[i]]) {
-                visited[newStr[i]] = 1;
-                
-                if(st[st.length -1] < newStr[i]) {
-                    st.push(newStr[i]);
-                } else {
-                    while(st[st.length -1] > newStr[i] && map[st[st.length -1]] > 0) {
-                        // kick out top
-                        visited[st.pop()] = 0;
-                    }
-                    st.push(newStr[i]);
+        if(!visited[newStr[i]]) {
+            if(st[st.length -1] > newStr[i]) {
+                while(st[st.length -1] > newStr[i] && map[st[st.length -1]] > 0) {
+                    visited[st.pop()] = 0;   // kick out top
                 }
-            } 
-        }
+            }
+            visited[newStr[i]] = 1;
+            st.push(newStr[i]);
+        } 
     }
     return st.join('');
 };
