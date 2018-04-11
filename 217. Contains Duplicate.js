@@ -10,13 +10,11 @@ Your function should return true if any value appears at least twice in the arra
  */
 var containsDuplicate = function(nums) {
     var map = {};
-    for(var i=0; i<nums.length; i++) {
-        map[nums[i]] = map[nums[i]] ? map[nums[i]]+1 : 1;
-    }
-    for(var key in map) {
-        if(map[key] >=2) {
+    for(var num of nums) {
+        if(map[num]) {
             return true;
         }
+        map[num] = 1;
     }
     return false;
 };
