@@ -26,3 +26,11 @@ var Depth = function(node, count) {
     var right =Depth(node.right, count);
     return Math.max(left, right) +1; 
 };
+
+
+// update
+var maxDepth = function(root) {
+     if(root === null) 
+       return 0;
+    return 1+Math.max(maxDepth(root.left), maxDepth(root.right));
+};
