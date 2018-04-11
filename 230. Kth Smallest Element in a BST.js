@@ -17,21 +17,20 @@ Note: You may assume k is always valid, 1 ≤ k ≤ BST's total elements.
  * use in-order traverse, count all nodes till count  == k ,return res;
  */
 var kthSmallest = function(root, k) {
-  var count=0, res= null, flag= false;
-  helper(root);
-  return res;
-  
-  function helper(node) {
-      if(node && !flag){
-        helper(node.left);
-        count++;
-      if(count === k) {
-         flag= true;
-         res = node.val;
-         return;
-      }
-      helper(node.right);
-      }
-     
-  }
+    if(!root)  return null;
+    var count = [0], res=[];
+    inorder(root, k, count, false, res);
+    return res[0];
+};
+
+var inorder = function(root, k, count, stop, res) {
+    if(!root || stop)  return;
+    inorder(root.left, k, count, stop, res);
+    count[0]++;
+    if(count[0] === k) {
+        stop = true;
+        res[0] = root.val;
+        return;
+    }
+    inorder(root.right, k, count, stop, res);
 };
