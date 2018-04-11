@@ -10,7 +10,7 @@ var nextPermutation = function(nums) {
     var point, st= [], tobeSwapped, swap, temp;
     for(var i=nums.length-1; i>=1; i--) {
         if(nums[i] > nums[i-1]) {
-            point = i-1;
+            point = i-1;    // find 6
             break;
         }
     }
@@ -21,12 +21,12 @@ var nextPermutation = function(nums) {
     
     swap = nums[point];
     for(var i=nums.length-1; i>=0; i--) {
-        if(nums[i] > swap && !tobeSwapped) {
-            tobeSwapped = i;
+        if(nums[i] > swap) {
+            tobeSwapped = i;    // find 7
             break;
         }
     }
-    temp = nums[point];
+    temp = nums[point];    // swap 6 with 7
     nums[point] = nums[tobeSwapped];
     nums[tobeSwapped] = temp;
     
