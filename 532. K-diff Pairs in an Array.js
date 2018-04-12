@@ -17,18 +17,17 @@ Explanation: There is one 0-diff pair in the array, (1, 1).
 
 
 var findPairs = function(nums, k) {
-    if(k<0) return 0;
-    var i, count = 0, val, sub=nums, res=[], cur;
-    nums.sort((a,b) => b-a > 0);
-    for(i=0; i<nums.length; i++) {
-        cur = nums[i];
-        val = nums[i] - k;
-        sub.splice(i, 1);
-        if(sub.indexOf(val) > -1) {
-            res.push(val +''+cur);
-        }
-        sub.splice(i, 0, cur);
+    if(k<0)  return 0;
+    var map = {}, count = 0;
+    for(var num of nums) {
+        map[num] = map[num]? map[num]+1 : 1;
     }
-    res= [...new Set(res)];
-    return res.length;
+    for(var key in map) {
+        if(k===0) {
+            if(map[key] >=2) count++;
+        } else {
+            if(map[+key+k])  count++;
+        }
+    }
+    return count;
 };
