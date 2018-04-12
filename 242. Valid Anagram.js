@@ -12,19 +12,17 @@ Note:  You may assume the string contains only lowercase alphabets.
  * @return {boolean}
  */
 var isAnagram = function(s, t) {
-    if(s.length !== t.length) return false;
-    var map = new Array(26).fill(0), i=0, chrS, chrT;
-    for(; i<s.length; i++) {
-        chrS = s.charCodeAt(i) -'a'.charCodeAt(0) +1;
-        chrT = t.charCodeAt(i) -'a'.charCodeAt(0) +1;
-        map[chrS]++;
-        map[chrT]--;
+    if(s.length !== t.length)  return false;
+    var arr = new Array(26).fill(0);
+    for(var i=0; i<s.length; i++) {
+        var inds = s.charCodeAt(i) - 'a'.charCodeAt(0);
+        arr[inds] ++;
+        var indt = t.charCodeAt(i) - 'a'.charCodeAt(0);
+        arr[indt] --;
+        
     }
-    
-    for(i=0; i<26;i++) {
-        if(map[i] !== 0) {
-            return false;
-        }
-    }
-    return true;
+    var sum = arr.reduce((total, item) =>  {
+        return total + Math.abs(item); 
+    } ,0);
+    return  sum=== 0;
 };
