@@ -22,19 +22,17 @@ Explanation:The minimum absolute difference is 1, which is the difference betwee
  * @return {number}
  */
 var getMinimumDifference = function(root) {
-    let minDiff = Number.MAX_VALUE, prev;
-    getDiff(root);
-    return minDiff;
-    
-    function getDiff(node) {
-        if(node) {
-            getDiff(node.left);
-            if(prev) {
-                minDiff = Math.min(minDiff, (node.val - prev.val));
-            }
-            prev= node;
-            getDiff(node.right);
-            
-        }
+    var minDiff = [Number.MAX_VALUE];
+    inorder(root, minDiff, [null]);
+    return minDiff[0];
+};
+
+var inorder = function(node, minDiff, prev) {
+    if(!node) return;
+    inorder(node.left, minDiff, prev);
+    if(prev[0]) {
+        minDiff[0] = Math.min(minDiff[0], Math.abs(prev[0].val - node.val));
     }
+    prev[0] = node;
+    inorder(node.right, minDiff, prev);
 };
