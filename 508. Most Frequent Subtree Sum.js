@@ -13,6 +13,8 @@ Examples 2  Input:
 2   -5
 return [2], since 2 happens twice, however -5 only occur once.
 */
+
+
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -24,39 +26,22 @@ return [2], since 2 happens twice, however -5 only occur once.
  * @param {TreeNode} root
  * @return {number[]}
  */
-
-
 var findFrequentTreeSum = function(root) {
-    let map = new Map(), res=[], max_V = 0;
-    if(!root || root.length === 0) return [];
-    getNodeSum(root);
-    //store sum for each node in map with its occurances
-     map.forEach((val, key)=>{
-         if(val > max_V) {
-             max_V = val;
-         }
-      });
-     
-      map.forEach((val, key)=>{
-         if(val === max_V) {
-            res.push(key);
-        }
-      });
-      
-    return res;
-    
-    function getNodeSum(node) {
-        if(!node) return 0;
-        let sum = node.val;
-        sum += getNodeSum(node.left);
-        sum += getNodeSum(node.right);
-        if(map.has(sum)) {
-            map.set(sum, map.get(sum)+1);
-        }
-        else {
-            map.set(sum, 1);
-        }
-        return sum;
-    
+    var maxCount = [0], res= [], map = {};
+    getSum(root, map, maxCount);
+    for(var key in map) {
+        if(map[key] === maxCount[0])
+            res.push(+key);
     }
+    return res;
+};
+
+var getSum = function(node, map, maxCount) {
+    if(!node)  return 0;
+    let sum = node.val;
+    sum+= getSum(node.left, map, maxCount);
+    sum+= getSum(node.right, map, maxCount);
+    map[sum] = map[sum]? map[sum]+1 : 1;
+    maxCount[0] = Math.max(maxCount[0], map[sum]);
+    return sum;
 };
