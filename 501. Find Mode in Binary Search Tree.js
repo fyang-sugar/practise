@@ -20,36 +20,25 @@ Note: If a tree has more than one mode, you can return them in any order.
  *     this.val = val;
  *     this.left = this.right = null;
  * }
- * // inorder traverse and record the max count, use map to store the values.
  */
 /**
  * @param {TreeNode} root
  * @return {number[]}
  */
 var findMode = function(root) {
-    if(!root) return [];
-    let map = new Map(), prev, res=[], maxCount =0;
-    helper(root, 1);
-    map.forEach((key, val)=>{
-        if(key === maxCount) {
-            res.push(val);
-        }
-    });
-    return res; 
-    
-    function helper(node) {
-        if(!node) return;
-        helper(node.left);
-        if(prev === node.val) {
-            ++count;
-        }
-        else {
-            count=1;
-        } 
-        maxCount = Math.max(maxCount, count);
-        map.set(node.val, count);
-            
-        prev= node.val;
-        helper(node.right);
+    var maxCount = [0], map = {}, res= [];
+    inorder(root, map, maxCount);
+    for(var key in map) {
+        if(map[key] === maxCount[0])
+            res.push(+key);
     }
+    return res;
+};
+
+var inorder = function(node, map, maxCount) {
+    if(!node)  return;
+    inorder(node.left, map, maxCount);
+    map[node.val] = map[node.val]? map[node.val]+1 :1;
+    maxCount[0] = Math.max(maxCount[0], map[node.val]);
+    inorder(node.right, map, maxCount);
 };
