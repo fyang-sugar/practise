@@ -20,28 +20,30 @@ The length of T will be in the range [1, 100].
  * @return {string}
  */
 var minWindow = function(S, T) {
-     var i = 0, j = 0, minStr = S + '-1';
-        for(var i=0; i<S.length; i++) {
-            if (S[i] == T[j]) {
-                j++;
-                if (j == T.length) {  // reach to the end of T, find one potential subsequence, start backtracking
-                    var end = i + 1;
-                    j--;  // j now point to the end of the T
-                    while(j >= 0) {  // move j to the -1, and i to the prev postion of which next one match the first in T
-                        if(S[i] === T[j]) {
-                            i--;
-                            j--;
-                        } else {
-                            i--;
-                        }
+    var pt = 0, minStr = S+'dummy';
+    for(var i=0; i<S.length; i++) {
+        if(S[i] === T[pt]) {
+            pt++;
+            if(pt === T.length) {  // find a potential match, move pT to point to the last char in T
+                pt --;
+                var end = i;
+                while(pt >=0) {  // backward match S and T till reach to the -1 postion of T
+                    if(T[pt] === S[i]) {
+                        pt--;
+                        i--;
+                    } else {
+                        i--;
                     }
-                    ++i;   // i back tracking to point to the element match the first in T
-                    ++j;  // j point to 0
-                    if (end - i < minStr.length) {
-                        minStr = S.substring(i, end);
-                    }
+                }  // end of the loop, pt now = -1
+                pt ++;
+                i++; // i point to the first matching position now.
+                
+                // record it if length smaller than min.
+                if(end - i + 1 < minStr.length) {
+                    minStr = S.substring(i, end+1);
                 }
             }
         }
-        return minStr === S+'-1' ? '' : minStr;
+    }
+    return minStr === S+'dummy' ? '' : minStr;
 };
