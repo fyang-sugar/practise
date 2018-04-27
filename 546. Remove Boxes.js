@@ -1,28 +1,9 @@
-/*
-Given several boxes with different colors represented by different positive numbers. 
-You may experience several rounds to remove boxes until there is no box left. 
-Each time you can choose some continuous boxes with the same color (composed of k boxes, k >= 1), remove them and get k*k points.
-Find the maximum points you can get.
-Example 1:
-Input:
-[1, 3, 2, 2, 2, 3, 4, 3, 1]
-Output:
-23
-Explanation:
-[1, 3, 2, 2, 2, 3, 4, 3, 1] 
-----> [1, 3, 3, 4, 3, 1] (3*3=9 points) 
-----> [1, 3, 3, 3, 1] (1*1=1 points) 
-----> [1, 1] (3*3=9 points) 
-----> [] (2*2=4 points)
-Note: The number of boxes n would not exceed 100.
-*/
-
 /**
  * @param {number[]} boxes
  * @return {number}
  
- we can defined dp[i][j][k] to be the max point when string i .... j followed by number of K same element y while str[r] = y
- under this constrain, the upper bound of dp[i][j][k] = dp[l][r-1][0] + (k+1)*(k+1)
+ we can defined dp[l][r][k] to be the max point when string l .... r followed by number of K same element y while str[r] = y
+ under this constrain, the upper bound of dp[l][r][k] = dp[l][r-1][0] + (k+1)*(k+1)
  for example: [3, 2, 1, 2, 2, 1, 1, 3, 4, 3, 1, 1, 1, 1] 
               l                              r<=      r                                
 since str[r] = str[r-1] r--; k++; k=3; dp[i][j][k] = dp[l][r-1][0] + (k+1)*(k+1)
