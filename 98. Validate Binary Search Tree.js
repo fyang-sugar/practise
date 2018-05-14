@@ -46,3 +46,14 @@ var isValidBST = function(root) {
         helper(node.right);
     }
 };
+
+// Another way
+var isValidBST = function(root) {
+    return isValid(root, Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER);
+};
+
+var isValid = function(root, maxV, minV) {
+    if(!root)  return true;
+    if(root.val >= maxV || root.val <= minV) return false;
+    return isValid(root.left, root.val, minV) && isValid(root.right, maxV, root.val);
+};
