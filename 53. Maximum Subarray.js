@@ -9,11 +9,24 @@ the contiguous subarray [4,-1,2,1] has the largest sum = 6.
  * @return {number}
  */
 var maxSubArray = function(nums) {
-    var maxEndingHere = nums[0];
-    var maxsoFar = maxEndingHere;
+    var dp = [];
+    dp[0] = nums[0];
+    var maxV = dp[0];
     for(var i=1; i<nums.length; i++) {
-        maxEndingHere = Math.max(maxEndingHere+nums[i], nums[i]);
-        maxsoFar = Math.max(maxsoFar, maxEndingHere);
+        dp[i] = Math.max(dp[i-1]+nums[i], nums[i]);
+        maxV = Math.max(dp[i], maxV);
     }
-    return maxsoFar;
+    return maxV;
+};
+
+// since only two values involved each time
+var maxSubArray = function(nums) {
+    var dp0 = nums[0];
+    var maxV = dp0;
+    for(var i=1; i<nums.length; i++) {
+        var dp1 = Math.max(dp0+nums[i], nums[i]);
+        maxV = Math.max(dp1, maxV);
+        dp0 = dp1;
+    }
+    return maxV;
 };
